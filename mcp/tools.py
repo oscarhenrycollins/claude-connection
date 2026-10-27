@@ -22,16 +22,16 @@ def connection_status():
     _, raw = http("GET", "/api/connection", None, headers, timeout=15)
     d = json.loads(raw)
     if d.get("status") == "not_connected":
-        d["next"] = ("Ask the owner to open the Claude app, press Sign in, open the sign-in link, then paste the code "
+        d["next"] = ("Ask the owner to open the Claude app, press Connect (or Add account), open the sign-in link, then paste the code "
                      "there. Never ask for the code or a token in chat.")
     elif d.get("status") == "expired":
-        d["next"] = ("Ask the owner to open the Claude app and press Sign in again on the expired subscription "
-                     "(or + Add to add another subscription).")
+        d["next"] = ("Ask the owner to open the Claude app, tap the expired account's row and press Reconnect "
+                     "(the original Claude Code sign-in shows Sign in again), or Add account to add another subscription.")
     elif (d.get("error") or {}).get("code") in ("unreachable", "not_configured", "login_rejected"):
         d["next"] = ("The Claude app can't reach this agent's dashboard (error.message; the page shows the agent address). "
                      "On a box where Wizard runs next to your own Hermes, run `wam alongside` and then any `wam app update ...` "
                      "it prints (re-points the app at this agent and restarts it); otherwise `wam app update wizard-claude`. "
                      "Check again; tell the owner in plain words if it still fails.")
     elif d.get("status") == "error" and (d.get("error") or {}).get("code") == "limit":
-        d["next"] = "That subscription hit its limit; the owner can add another Claude subscription with + Add in the Claude app."
+        d["next"] = "That subscription hit its limit; the owner can add another Claude subscription with Add account in the Claude app."
     return d

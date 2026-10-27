@@ -13,7 +13,7 @@ services:
     mem_limit: 128m
     environment:
       WIZARD_APP: wizard-claude
-      APP_VERSION: 0.2.8
+      APP_VERSION: 0.2.9
       FRONT_PORT: "8799"
       UPSTREAM_HOST: wizard-claude-engine
       UPSTREAM_PORT: "8799"
@@ -228,18 +228,18 @@ services:
           _, raw = http("GET", "/api/connection", None, headers, timeout=15)
           d = json.loads(raw)
           if d.get("status") == "not_connected":
-              d["next"] = ("Ask the owner to open the Claude app, press Sign in, open the sign-in link, then paste the code "
+              d["next"] = ("Ask the owner to open the Claude app, press Connect (or Add account), open the sign-in link, then paste the code "
                            "there. Never ask for the code or a token in chat.")
           elif d.get("status") == "expired":
-              d["next"] = ("Ask the owner to open the Claude app and press Sign in again on the expired subscription "
-                           "(or + Add to add another subscription).")
+              d["next"] = ("Ask the owner to open the Claude app, tap the expired account's row and press Reconnect "
+                           "(the original Claude Code sign-in shows Sign in again), or Add account to add another subscription.")
           elif (d.get("error") or {}).get("code") in ("unreachable", "not_configured", "login_rejected"):
               d["next"] = ("The Claude app can't reach this agent's dashboard (error.message; the page shows the agent address). "
                            "On a box where Wizard runs next to your own Hermes, run `wam alongside` and then any `wam app update ...` "
                            "it prints (re-points the app at this agent and restarts it); otherwise `wam app update wizard-claude`. "
                            "Check again; tell the owner in plain words if it still fails.")
           elif d.get("status") == "error" and (d.get("error") or {}).get("code") == "limit":
-              d["next"] = "That subscription hit its limit; the owner can add another Claude subscription with + Add in the Claude app."
+              d["next"] = "That subscription hit its limit; the owner can add another Claude subscription with Add account in the Claude app."
           return d
 
 
@@ -251,7 +251,7 @@ services:
       internal_port: 8799
   wizard-claude-engine:
     # Built and published by wizard-app-store images/wizard-claude at 254ee6f2 (wizard-app-store #32), Build Claude run 40364246477.
-    image: ghcr.io/humanitylabs-org/wizard-claude:0.2.8@sha256:7e7956086a2f8810b46666e5948c71ffc2637e1e54566eaffb100fb8acdc406c
+    image: ghcr.io/humanitylabs-org/wizard-claude:0.2.9@sha256:c4740c16f2bc41f2073bbe7b195f301c9466889802cbba2fa8f7dffa3dd45e8d
     user: "1000:1000"
     read_only: true
     cap_drop: [ALL]
