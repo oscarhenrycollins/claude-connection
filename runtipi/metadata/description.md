@@ -12,7 +12,7 @@ Each subscription gets its own row with its plan and usage bars. Tapping a row o
 
 ## Your original sign-in
 
-If this server was already connected (Claude 0.1, or AI Accounts), that sign-in stays as the first row and keeps working. When it needs to sign in again, the row shows **Sign in again**, which opens the original Claude Code sign-in page (Connect, paste the code, Test, Disconnect). On an agent without the Wizard OS account broker, **Sign in** opens that same page.
+If this server was already connected (Claude 0.1, or AI Accounts), that sign-in stays as the first row and keeps working. When it needs to sign in again, the row shows **Sign in again**, which opens the original Claude Code sign-in page (Connect, paste the code, Test, Disconnect). On an agent without the Wizard OS account broker, **Connect** opens that same page.
 
 ## Moving from AI Accounts
 
